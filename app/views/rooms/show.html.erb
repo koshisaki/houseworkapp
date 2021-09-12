@@ -1,3 +1,83 @@
-<h2>room name</h2>
+<h1><%= @room.name%></h1>
 
-<%= @room.name%>
+<div class="line-it-button" data-lang="ja" data-type="share-a" data-ver="3" data-url="https://houseworksaki.herokuapp.com/rooms/<%=@room.room_hash%>" data-color="default" data-size="small" data-count="false" style="display: none;"></div>
+<script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+
+<% if @room.room_members.any? %>
+    <h2>メンバー（<%= @room.room_members.count%>）</h2>
+    <% @room.room_members.each do |rm| %>
+        <%= rm.name%>｜<%= rm.sum_work%>円相当の家事をしました！
+        <br>
+    <% end %>
+    平均<%= @room.culculate %>
+<% end %>
+
+
+<h2 id="acMenu">メンバー追加</h2>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+    <%= form_for @room_member do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <% @room_member.room_id = @room.id %>
+        <%= f.hidden_field :room_id %>
+        <%= f.label :member_name %>
+        <%= f.text_field :name %>
+        <%= f.submit "add member", class: "btn btn-primary" %>
+    <% end %>
+    </div>
+</div>
+
+<% if @room.worktypes.any? %>
+    <h2>家事の種類（<%= @room.worktypes.count%>）</h2>
+    <% @room.worktypes.each do |wt| %>
+        <%= wt.name%>（<%= wt.timepay%>）
+    <% end %>
+<% end %>
+
+<h2>家事を登録</h2>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+    <%= form_for @worktype do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <% @worktype.room_id = @room.id %>
+        <%= f.hidden_field :room_id %>
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        <%= f.label :timepay %>
+        <%= f.number_field :timepay %>
+        <%= f.submit "add member", class: "btn btn-primary" %>
+    <% end %>
+    </div>
+</div>
+
+<% if @room.works.any? %>
+    <h2>家事記録（<%= @room.works.count%>）</h2>
+    <% @room.works.each do |w| %>
+        <%= w.room_member.name%>が<%= w.worktype.name%>を<%= w.time%>分行いました！(<%=w.equivalant%>円相当）<br>
+    <% end %>
+<% end %>
+
+<% if @room.worktypes.any? && @room.room_members.any? %>
+    <h2>家事を記録</h2>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+        <%= form_for @work do |f| %>
+            <%= render 'shared/error_messages', object: f.object %>
+            <% @work.room_id = @room.id %>
+            <%= f.hidden_field :room_id %>
+            <%= f.label :room_member %>
+            <%= f.collection_select(:room_member_id, @room.room_members, :id, :name) %>
+            <%= f.label :worktype_id %>
+            <%= f.collection_select(:worktype_id, @room.worktypes, :id, :name) %>
+            <%= f.label :time %>
+            <%= f.number_field :time %>
+            <%= f.submit "add member", class: "btn btn-primary" %>
+        <% end %>
+        </div>
+    </div>
+<% end %>
+
+
+
+<%# link_to "家事登録", "#", class: "btn btn-lg btn-primary" %>
+<script type="text/javascript">LineIt.loadButton();</script>

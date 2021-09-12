@@ -10,10 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210912011626) do
+ActiveRecord::Schema.define(version: 20210912093914) do
+
+  create_table "room_members", force: :cascade do |t|
+    t.integer "room_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "room_hash"
+    t.index ["room_hash"], name: "index_rooms_on_room_hash"
+  end
+
+  create_table "works", force: :cascade do |t|
+    t.integer "room_member_id"
+    t.integer "worktype_id"
+    t.integer "time"
+    t.integer "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "worktypes", force: :cascade do |t|
+    t.string "name"
+    t.integer "timepay"
+    t.integer "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

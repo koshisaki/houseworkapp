@@ -1,13 +1,18 @@
 <% provide(:title, ' Create Room') %>
-<h1>Create room</h1>
-<p>ルームを作成しましょう</p>
+<h1>ルームを作成する</h1>
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@room) do |f| %>
+    <%= form_for @room do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         <%= f.label :room_name %>
         <%= f.text_field :name %>
-
+        <%# <%= f.fields_for @room_member do |rm| %>
+        <%# #f.fields_for @room_member do |rm| %>
+            <%# <%= rm.hidden_field :room_id %>
+            <%# <%= f.collection_select :room_id  %>
+            <%# rm.label :Member_name %>
+            <%# rm.text_field :name %>
+        <%# end %> 
         <%= f.submit "Create myroom", class: "btn btn-primary" %>
     <% end %>
     </div>
