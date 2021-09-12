@@ -7,6 +7,6 @@ class AddColumnRoomAndCreateRoomMember < ActiveRecord::Migration[5.1]
       t.string :name
       t.timestamps
     end
-    add_foreign_key :room_member, :rooms
+    add_foreign_key :room_members, :rooms
   end
 end
