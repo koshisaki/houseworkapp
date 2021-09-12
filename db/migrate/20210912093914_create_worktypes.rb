@@ -7,6 +7,6 @@ class CreateWorktypes < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_foreign_key :worktype, :rooms
+    add_foreign_key :worktypes, :rooms
   end
 end
