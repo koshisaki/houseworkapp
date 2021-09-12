@@ -9,7 +9,6 @@ class CreateWorks < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     add_foreign_key :works, :room_members
-    add_foreign_key :works, :worktypes
     add_foreign_key :works, :rooms
   end
 end
