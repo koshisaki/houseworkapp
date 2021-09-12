@@ -7,6 +7,9 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 threads threads_count, threads_count
 
+
+rackup      DefaultRackup
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 port        ENV.fetch("PORT") { 3000 }
@@ -47,9 +50,9 @@ preload_app!
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
 #
-# on_worker_boot do
-#   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-# end
+on_worker_boot do
+    ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+end
 #
 
 # Allow puma to be restarted by `rails restart` command.
