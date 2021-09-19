@@ -1,12 +1,12 @@
 <% if object.errors.any? %>
-    <div id="error_explanation">
-    <div class="alert alert-danger">
-        <%= object.errors.count %>つのエラーがあります。
-    </div>
-    <ul>
-    <% object.errors[:name].each do |msg| %>
-        <li><%= msg %></li>
-    <% end %>
-    </ul>
+    <div id="error_explanation" class="js-message-errors js-errors-worktype">
+        <div class="alert alert-danger">
+            <%= object.errors.count %>つのエラーがあります。
+        </div>
+        <ul>
+        <% object.errors.messages.values.each do |val| %>
+            <li><%= val.join() %></li>
+        <% end %>
+        </ul>
     </div>
 <% end %>

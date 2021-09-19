@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+    <div class="js-errors-worktype"></div>
+    <%= form_for(@worktype , remote:"true") do |f| %>
+        <%# render 'shared/error_messages', object: f.object %>
+        <% @worktype.room_id = @room.id %>
+        <%= f.hidden_field :room_id %>
+        <%= f.label "家事内容" %>
+        <%= f.text_field :name , placeholder: "ex）洗濯機を回す、選択をたたむ、資源ごみをまとめる"%>
+        <%= f.label "時給にすると" %>
+        <%= f.number_field :timepay , placeholder: "ex）2000"%>
+        <p><i class="fas fa-dove"></i>　時間はかからないけれど、誰もやりたくない家事の時給は高く設定すべし！</p>
+        <%= f.submit "add member", class: "btn btn-primary"%>
+    <% end %>
+    </div>
+</div>

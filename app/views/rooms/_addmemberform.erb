@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+    <div class="js-message-errors"></div>
+    <%= form_for(@room_member , remote:"true", class: 'js-form') do |f| %>
+        <% @room_member.room_id = @room.id %>
+        <%= f.hidden_field :room_id %>
+        <%= f.label :member_name %>
+        <%= f.text_field :name %>
+        <%= f.submit "add member", class: "btn btn-primary" %>
+    <% end %>
+    </div>
+</div>

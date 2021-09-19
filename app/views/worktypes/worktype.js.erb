@@ -1,0 +1,8 @@
+console.log("worktype.js.erbファイルが呼び出されました！");
+
+$('.js-errors-worktype').replaceWith(
+    "<%= j(
+    render 'shared/error_messages',
+    object: @worktype
+    ) %>"
+);

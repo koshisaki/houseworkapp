@@ -1,52 +1,82 @@
 <h1><%= @room.name%></h1>
-
 <div class="line-it-button" data-lang="ja" data-type="share-a" data-ver="3" data-url="https://houseworksaki.herokuapp.com/rooms/<%=@room.room_hash%>" data-color="default" data-size="small" data-count="false" style="display: none;"></div>
 <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 
 <% if @room.room_members.any? %>
-    <h2>メンバー（<%= @room.room_members.count%>）</h2>
+    <h2>メンバー（<%= @room.room_members.count%>）<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-member">メンバー追加</button></h2>
+    <table class="table table-borderless">
+    <thead>
+        <tr>
+            <th scope="col">名前</th>
+            <th scope="col">これまでの家事合計</th>
+            <th scope="col">回数</th>
+        </tr>
+    </thead>
     <% @room.room_members.each do |rm| %>
-        <%= rm.name%>｜<%= rm.sum_work%>円相当の家事をしました！
-        <br>
+        <tr>
+            <td><%= rm.name%></td>
+            <td><%= rm.sum_work%>円相当の家事をしました！</td>
+            <td><%= rm.works.count%></td>
+        </tr>
     <% end %>
+    </table>
     平均<%= @room.culculate %>
+<% else %>
+    <h2 id="acMenu">メンバー追加</h2>
+    <%= render 'rooms/addmemberform'%>
 <% end %>
 
 
-<h2 id="acMenu">メンバー追加</h2>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-    <%= form_for @room_member do |f| %>
-        <%= render 'shared/error_messages', object: f.object %>
-        <% @room_member.room_id = @room.id %>
-        <%= f.hidden_field :room_id %>
-        <%= f.label :member_name %>
-        <%= f.text_field :name %>
-        <%= f.submit "add member", class: "btn btn-primary" %>
-    <% end %>
+<div class="modal" id="modal-member" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalLabelId">メンバー追加</h3>
+            </div>
+            <div class="modal-body">
+            <%= render 'rooms/addmemberform'%>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <% if @room.worktypes.any? %>
-    <h2>家事の種類（<%= @room.worktypes.count%>）</h2>
+    <h2>家事の種類（<%= @room.worktypes.count%>）<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-worktype">家事登録</button></h2>
+    <table class="table table-borderless">
+    <thead>
+        <tr>
+            <th scope="col">家事</th>
+            <th scope="col">価値</th>
+        </tr>
+    </thead>
     <% @room.worktypes.each do |wt| %>
-        <%= wt.name%>（<%= wt.timepay%>）
+        <tr>
+            <td><%= wt.name%></td>
+            <td>時給<%= wt.timepay%>円</td>
+        </tr>
     <% end %>
+    </table>
+<% else %>
+    <h2>家事を登録</h2>
+    <%= render 'rooms/addworktypeform'%>
 <% end %>
 
-<h2>家事を登録</h2>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-    <%= form_for @worktype do |f| %>
-        <%= render 'shared/error_messages', object: f.object %>
-        <% @worktype.room_id = @room.id %>
-        <%= f.hidden_field :room_id %>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-        <%= f.label :timepay %>
-        <%= f.number_field :timepay %>
-        <%= f.submit "add member", class: "btn btn-primary" %>
-    <% end %>
+<div class="modal" id="modal-worktype" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalLabelId">家事登録</h3>
+            </div>
+            <div class="modal-body">
+            <%= render 'rooms/addworktypeform'%>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -59,17 +89,17 @@
 
 <% if @room.worktypes.any? && @room.room_members.any? %>
     <h2>家事を記録</h2>
-    <div class="row">
+    <div class="row gy-2 gx-3 align-items-center">
         <div class="col-md-6 col-md-offset-3">
         <%= form_for @work do |f| %>
             <%= render 'shared/error_messages', object: f.object %>
             <% @work.room_id = @room.id %>
             <%= f.hidden_field :room_id %>
-            <%= f.label :room_member %>
+            <%= f.label "誰が" %>
             <%= f.collection_select(:room_member_id, @room.room_members, :id, :name) %>
-            <%= f.label :worktype_id %>
-            <%= f.collection_select(:worktype_id, @room.worktypes, :id, :name) %>
-            <%= f.label :time %>
+            <%= f.label "何を" %>
+            <%= f.collection_select(:worktype_id, @room.worktypes, :id, :name)%>
+            <%= f.label "何分" %>
             <%= f.number_field :time %>
             <%= f.submit "add member", class: "btn btn-primary" %>
         <% end %>
@@ -80,4 +110,3 @@
 
 
 <%# link_to "家事登録", "#", class: "btn btn-lg btn-primary" %>
-<script type="text/javascript">LineIt.loadButton();</script>

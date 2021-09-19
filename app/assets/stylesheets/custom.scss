@@ -1,7 +1,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 $light-gray: #777;
+$thema: #ec6d71;
 
 @mixin box_sizing {
     -moz-box-sizing:    border-box;
@@ -58,13 +61,24 @@ p {
 
 /* header */
 
+.navbar-inverse {
+    background-color: $thema;
+    border-color: $thema;
+}
+
+#logo-img {
+    float: left;
+    margin-right: 10px;
+    height: 45px;
+    padding-top: 9px;
+}
+
 #logo {
     float: left;
     margin-right: 10px;
     font-size: 1.7em;
     color: #fff;
-    text-transform: uppercase;
-    letter-spacing: -1px;
+    letter-spacing: 4px;
     padding-top: 9px;
     font-weight: bold;
     &:hover {
@@ -137,6 +151,18 @@ input {
     }
 }
 
-// .row {
-//     display:none;
-// }
+.btn-primary {
+    color: #fff;
+    background-color: $thema;
+    border-color: $thema;
+    &:hover {
+        color: $thema;
+        background-color: #fff;
+        border-color: $thema;
+    }
+}
+
+.modal-dialog {
+    top: 200px;
+}
+
