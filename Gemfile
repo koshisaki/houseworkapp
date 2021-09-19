@@ -31,6 +31,11 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'rails-i18n'
 gem 'haml-rails'
+
+gem 'data-confirm-modal'
+gem "font-awesome-rails"
+gem 'font-awesome-sass'
+# gem 'jquery-rails'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
