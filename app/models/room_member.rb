@@ -1,7 +1,7 @@
 class RoomMember < ApplicationRecord
     validates :name,
-        presence: { message: "メンバー名は必須です。"},
-        length: { maximum: 20, message: "メンバー名は20文字以下で指定してください。"}
+        presence: { message: "名前は必須です。"},
+        length: { maximum: 20, message: "名前は20文字以下で指定してください。"}
     belongs_to :room
     has_many :works, dependent: :destroy
 

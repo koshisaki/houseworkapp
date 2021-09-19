@@ -4,9 +4,9 @@
     <%= form_for(@room_member , remote:"true", class: 'js-form') do |f| %>
         <% @room_member.room_id = @room.id %>
         <%= f.hidden_field :room_id %>
-        <%= f.label :member_name %>
+        <%= f.label "名前" %>
         <%= f.text_field :name %>
-        <%= f.submit "add member", class: "btn btn-primary" %>
+        <%= f.submit "メンバー追加", class: "btn btn-primary" %>
     <% end %>
     </div>
 </div>
